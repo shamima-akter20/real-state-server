@@ -3,8 +3,11 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const morgan = require("morgan");
-const publicRouter  = require('./router/public')
-const adminRouter  = require('./router/admin')
+const { run } = require("./db/mongodbConnection");
+const usersRouter = require("./router/users");
+const AuthRouter = require("./router/authentication");
+const propertiesRouter = require("./router/properties");
+
 const port = process.env.PORT || 1212;
 
 //middleware
@@ -12,15 +15,11 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-const { run } = require("./db/mongodbConnection");
-const userRouter = require("./router/user");
-const globalErrorHandler = require("./middlewares/globalErrorHandler");
+app.use(usersRouter)
 
-app.use('/', publicRouter)
+app.use(propertiesRouter)
 
-app.use('/admin', adminRouter)
-
-app.use('/user', userRouter)
+app.use(AuthRouter)
 
 
 app.get("/", (req, res) => {
@@ -35,7 +34,7 @@ app.all("*", (req, res, next) => {
 });
 
 
-app.use(globalErrorHandler)
+app.use(require("./middlewares/globalErrorHandler"))
 
 const main = async () => {
   await run().catch(console.dir);

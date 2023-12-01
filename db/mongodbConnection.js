@@ -13,9 +13,7 @@ const client = new MongoClient(uri, {
 });
 
 const usersCollection = client.db("eliteEstateDB").collection("users");
-const propertiesCollection = client
-  .db("eliteEstateDB")
-  .collection("properties");
+const propertiesCollection = client.db("eliteEstateDB").collection("properties");
 const reviewsCollection = client.db("eliteEstateDB").collection("reviews");
 const offersCollection = client.db("eliteEstateDB").collection("offers");
 const wishlistsCollection = client.db("eliteEstateDB").collection("wishlists");
