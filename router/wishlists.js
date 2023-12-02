@@ -9,8 +9,29 @@ router.get('/wishlists', async(req, res) => {
         const filter = {}
         const query = req.query;
         if(query.userEmail){
-            filter.userEmail = query.email
-            // console.log(query.email, filter);
+            
+            const result = await wishlistsCollection
+            .aggregate([
+              {
+                $match: {
+                    userEmail: query.userEmail,
+                },
+              },
+              {
+                $lookup: {
+                  from: "properties",
+                  localField: "propertyId",
+                  foreignField: "_id",
+                  as: "propertyDetails",
+                },
+              },
+              {
+                $unwind: "$propertyDetails",
+              },
+            ])
+            .toArray();
+
+            return res.send(result);
         }
 
         const wishlists = await wishlistsCollection.find(filter).toArray()
@@ -33,7 +54,7 @@ router.get('/wishlists/:id', async(req, res) => {
 
 router.post('/wishlists', async(req, res) => {
     try {
-        const wishlist = await wishlistsCollection.insertOne(req.body)
+        const wishlist = await wishlistsCollection.insertOne({...req.body, propertyId: new ObjectId(req.body.propertyId)})
         res.send(wishlist)
     } catch (error) {
         res.status(500).send(error.message)

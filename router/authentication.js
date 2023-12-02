@@ -28,4 +28,8 @@ router.post("/createToken", async (req, res) => {
     }
   });
 
+  router.delete('/deleteToken', (req, res)=>{
+    res.clearCookie('token')
+  })
+
   module.exports = router;
