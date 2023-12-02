@@ -5,7 +5,12 @@ const router = require("express").Router();
 
 router.get('/properties', async(req, res) => {
     try {
-        const result = await propertiesCollection.find().toArray()
+        const filter = {}
+        const query = req.query
+        if(query.agentEmail){
+            filter.agentEmail = query.agentEmail
+        }
+        const result = await propertiesCollection.find(filter).toArray()
         res.send(result)
     } catch (error) {
         res.status(500).send(error.message)
@@ -31,5 +36,40 @@ router.post('/properties', async(req, res) => {
     }
 })
 
+router.put('/properties/:id', async(req, res) => {
+    try {
+        const filter = {_id: new ObjectId(req.params.id)}
+        const doc = {
+            $set: req.body
+        }
+        const properties = await propertiesCollection.updateOne(filter, doc, {upsert: true})
+        res.send(properties)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+})
+
+router.patch('/properties/:id', async(req, res) => {
+    try {
+        const filter = {_id: new ObjectId(req.params.id)}
+        const doc = {
+            $set: req.body
+        }
+        const properties = await propertiesCollection.updateOne(filter, doc)
+        res.send(properties)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+})
+
+
+router.delete('/properties/:id', async(req, res) => {
+    try {
+        const properties = await propertiesCollection.deleteOne({_id: new ObjectId(req.params.id)})
+        res.send(properties)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+})
 
 module.exports = router;

@@ -1,0 +1,1 @@
+// property collectoin er get route er query ta thik kora
