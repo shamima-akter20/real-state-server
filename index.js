@@ -7,11 +7,15 @@ const { run } = require("./db/mongodbConnection");
 const usersRouter = require("./router/users");
 const AuthRouter = require("./router/authentication");
 const propertiesRouter = require("./router/properties");
+const wishlistsRouter = require("./router/wishlists");
 
 const port = process.env.PORT || 1212;
 
 //middleware
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173"],
+  credentials: true
+}));
 app.use(express.json());
 app.use(morgan("dev"));
 
@@ -21,6 +25,7 @@ app.use(propertiesRouter)
 
 app.use(AuthRouter)
 
+app.use(wishlistsRouter)
 
 app.get("/", (req, res) => {
   res.send("Elite Estate server is running...:)");
