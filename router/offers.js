@@ -9,7 +9,28 @@ router.get('/offers', async(req, res) => {
         const filter = {}
         const query = req.query;
         if(query.buyerEmail){
-            filter.buyerEmail = query.buyerEmail
+            // filter.buyerEmail = query.buyerEmail
+            const result = await offersCollection.aggregate([
+                {
+                    $match: {
+                        buyerEmail: query?.buyerEmail
+                    }
+                },
+                  {
+                    $lookup: {
+                      from: "properties",
+                      localField: "propertyId",
+                      foreignField: "_id",
+                      as: "propertyDetails",
+                    },
+                  },
+                  {
+                    $unwind: '$propertyDetails'
+                  }
+            ]).toArray()
+            return res.send(result)
+        } else if(query?.status){
+            filter.status = query.status
         }
         const result = await offersCollection.find(filter).toArray()
         res.send(result)
@@ -20,8 +41,25 @@ router.get('/offers', async(req, res) => {
 
 router.get('/offers/:id', async(req, res) => {
     try {
-        const offer = await offersCollection.findOne({_id: new ObjectId(req.params.id)})
-        res.send(offer)
+        const result = await offersCollection.aggregate([
+            {
+                $match: {
+                    _id: new ObjectId(req.params.id)
+                }
+            },
+              {
+                $lookup: {
+                  from: "properties",
+                  localField: "propertyId",
+                  foreignField: "_id",
+                  as: "propertyDetails",
+                },
+              },
+              {
+                $unwind: '$propertyDetails'
+              }
+        ]).next()
+        res.send(result)
     } catch (error) {
         res.status(500).send(error.message)
     }
@@ -42,7 +80,7 @@ router.patch('/offers/:id', async(req, res) => {
 
 router.post('/offers', async(req, res) => {
     try {
-        const offers = await offersCollection.insertOne(req.body)
+        const offers = await offersCollection.insertOne({...req.body, propertyId: new ObjectId(req.body?.propertyId)})
         res.send(offers)
     } catch (error) {
         res.status(500).send(error.message)

@@ -16,7 +16,7 @@ const port = process.env.PORT || 1212;
 
 //middleware
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174"],
+  origin: ["http://localhost:5173", "https://a12-project-fabd5.firebaseapp.com", "https://a12-project-fabd5.web.app"],
   credentials: true
 }));
 app.use(express.json());

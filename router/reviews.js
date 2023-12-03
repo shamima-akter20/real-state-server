@@ -25,8 +25,9 @@ router.get("/reviews", async (req, res) => {
             },
           },
           {
-            $unwind: "$propertyDetails",
-          },
+            $unwind: '$propertyDetails'
+          }
+          
         ])
         .toArray();
 

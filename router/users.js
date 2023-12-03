@@ -21,6 +21,17 @@ router.get('/users/:email', async(req, res) => {
     }
 })
 
+router.get('/getRole/:email', async(req, res) => {
+    try {
+        const user = await usersCollection.findOne({email: req.params.email})
+        const role = user?.role || false;
+        res.send(role)
+
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+})
+
 router.post('/users', async(req, res) => {
     try {
         const result = await usersCollection.insertOne(req.body)
@@ -56,7 +67,6 @@ router.patch('/users/:id', async(req, res) => {
         res.status(500).send(error.message)
     }
 })
-
 
 router.delete('/users/:id', async(req, res) => {
     try {

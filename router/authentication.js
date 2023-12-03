@@ -7,6 +7,7 @@ const router = express.Router()
 router.post("/createToken", async (req, res) => {
     try {
       const query = { email: req.body?.email };
+
       const user = await usersCollection.findOne(query);
   
       if ((user && user?.email) !== req.body?.email) {
@@ -25,6 +26,7 @@ router.post("/createToken", async (req, res) => {
         .send({ message: "token created!" });
     } catch (error) {
       res.status(500).send(error.message);
+      console.log(error);
     }
   });
 
