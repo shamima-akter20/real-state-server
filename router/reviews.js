@@ -1,5 +1,6 @@
 const { ObjectId } = require("mongodb");
 const { reviewsCollection } = require("../db/mongodbConnection");
+const verifyToken = require("../middlewares/verifyToken");
 
 const router = require("express").Router();
 
@@ -42,7 +43,7 @@ router.get("/reviews", async (req, res) => {
   }
 });
 
-router.post("/reviews", async (req, res) => {
+router.post("/reviews", verifyToken, async (req, res) => {
   try {
     const reviews = await reviewsCollection.insertOne({
       ...req.body,
@@ -54,7 +55,7 @@ router.post("/reviews", async (req, res) => {
   }
 });
 
-router.delete("/reviews/:id", async (req, res) => {
+router.delete("/reviews/:id", verifyToken, async (req, res) => {
   try {
     const reviews = await reviewsCollection.deleteOne({
       _id: new ObjectId(req.params.id),

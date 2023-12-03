@@ -34,8 +34,15 @@ router.get('/getRole/:email', async(req, res) => {
 
 router.post('/users', async(req, res) => {
     try {
-        const result = await usersCollection.insertOne(req.body)
-        res.send(result)
+        const userEmail = req.body.email;
+        const isUser = await usersCollection.findOne({email: userEmail})
+        if(!isUser){
+            const result = await usersCollection.insertOne(req.body)
+           return  res.send(result)
+        }
+
+        res.send("user already exists")
+       
     } catch (error) {
         res.status(500).send(error.message)
     }

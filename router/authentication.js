@@ -6,14 +6,7 @@ const router = express.Router()
 
 router.post("/createToken", async (req, res) => {
     try {
-      const query = { email: req.body?.email };
 
-      const user = await usersCollection.findOne(query);
-  
-      if ((user && user?.email) !== req.body?.email) {
-        return res.status(401).send({ message: "unauthorized access" });
-      }
-  
       const token = jwt.sign(req.body, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
