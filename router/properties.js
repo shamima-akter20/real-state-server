@@ -25,6 +25,7 @@ router.get('/properties/:id', verifyToken, async(req, res) => {
     try {
         const query = {_id: new ObjectId(req.params.id)}
         const result = await propertiesCollection.findOne(query)
+        console.log(result);
         res.send(result)
     } catch (error) {
         res.status(500).send(error.message)

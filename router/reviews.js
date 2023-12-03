@@ -35,7 +35,10 @@ router.get("/reviews", async (req, res) => {
     //   console.log("aggrigate");
 
       return res.send(result);
+    } else if(query.propertyId){
+      filter.propertyId = new ObjectId(query.propertyId)
     }
+    console.log(filter);
     const reviews = await reviewsCollection.find(filter).toArray();
     res.send(reviews);
   } catch (error) {

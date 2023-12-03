@@ -3,10 +3,7 @@
     "image": "https://i.ibb.co/k5PBTR1/e2.jpg",
     "verification_status": "verified",
     "price": 750000,
-    "location": {
-      "latitude": "34.0522",
-      "longitude": -118.2437
-    },
+    "location": "Jessore",
     "propertyTitle": "Luxurious Beachfront Villa",
     "propertyDescription": "A stunning villa with panoramic ocean views and modern amenities.",
     "agentName": "Alex Thompson",
@@ -30,10 +27,7 @@
     "image": "https://i.ibb.co/xjps5bG/w.jpg",
     "verification_status": "verified",
     "price": 420000,
-    "location": {
-      "latitude": "40.7128",
-      "longitude": -74.006
-    },
+    "location": "chittagong",
     "propertyTitle": "Modern City Apartment",
     "propertyDescription": "A sleek and stylish apartment in the heart of the city, perfect for urban living.",
     "agentName": "Emily Rodriguez",
@@ -57,10 +51,7 @@
     "image": "https://i.ibb.co/db4QKg8/h3.jpg",
     "verification_status": "verified",
     "price": 620000,
-    "location": {
-      "latitude": "51.5074",
-      "longitude": -0.1278
-    },
+    "location": "Rajshahi",
     "propertyTitle": "Charming Victorian House",
     "propertyDescription": "A beautifully restored Victorian house with classic architecture and modern comforts.",
     "agentName": "Daniel Clark",
@@ -111,10 +102,7 @@
     "image": "https://i.ibb.co/SXKT2nF/pexels-binyamin-mellish-1396132.jpg",
     "verification_status": "verified",
     "price": 550000,
-    "location": {
-      "latitude": "35.6895",
-      "longitude": 139.6917
-    },
+    "location": "Dhaka",
     "propertyTitle": "Contemporary Loft in the City",
     "propertyDescription": "A stylish loft with modern design elements and stunning city skyline views.",
     "agentName": "Christopher Taylor",
@@ -138,10 +126,7 @@
     "image": "https://example.com/property6.jpg",
     "verification_status": "verified",
     "price": 780000,
-    "location": {
-      "latitude": "-33.8688",
-      "longitude": 151.2093
-    },
+    "location": "Banani",
     "propertyTitle": "Luxury Penthouse with Panoramic Views",
     "propertyDescription": "Experience luxury living in this penthouse with breathtaking views of the city and harbor.",
     "agentName": "Sophia Anderson",
