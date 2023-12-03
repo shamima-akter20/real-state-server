@@ -1,5 +1,9 @@
 const { ObjectId } = require("mongodb");
 const { propertiesCollection } = require("../db/mongodbConnection");
+const verifyToken = require("../middlewares/verifyToken");
+const verifyAgent = require("../middlewares/verifyAgent");
+const verifyAdmin = require("../middlewares/verifyAdmin");
+// console.log(verifyToken);
 
 const router = require("express").Router();
 
@@ -17,7 +21,7 @@ router.get('/properties', async(req, res) => {
     }
 })
 
-router.get('/properties/:id', async(req, res) => {
+router.get('/properties/:id', verifyToken, async(req, res) => {
     try {
         const query = {_id: new ObjectId(req.params.id)}
         const result = await propertiesCollection.findOne(query)
@@ -27,7 +31,7 @@ router.get('/properties/:id', async(req, res) => {
     }
 })
 
-router.post('/properties', async(req, res) => {
+router.post('/properties', verifyToken, verifyAgent, async(req, res) => {
     try {
         const result = await propertiesCollection.insertOne(req.body)
         res.send(result)
@@ -36,7 +40,7 @@ router.post('/properties', async(req, res) => {
     }
 })
 
-router.put('/properties/:id', async(req, res) => {
+router.put('/properties/:id', verifyToken, verifyAgent, async(req, res) => {
     try {
         const filter = {_id: new ObjectId(req.params.id)}
         const doc = {
@@ -49,7 +53,7 @@ router.put('/properties/:id', async(req, res) => {
     }
 })
 
-router.patch('/properties/:id', async(req, res) => {
+router.patch('/properties/:id', verifyToken, verifyAgent, async(req, res) => {
     try {
         const filter = {_id: new ObjectId(req.params.id)}
         const doc = {
@@ -63,7 +67,7 @@ router.patch('/properties/:id', async(req, res) => {
 })
 
 
-router.delete('/properties/:id', async(req, res) => {
+router.delete('/properties/:id', verifyToken, verifyAdmin, async(req, res) => {
     try {
         const properties = await propertiesCollection.deleteOne({_id: new ObjectId(req.params.id)})
         res.send(properties)
