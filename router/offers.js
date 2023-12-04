@@ -78,6 +78,22 @@ router.patch('/offers/:id', async(req, res) => {
     }
 })
 
+router.patch('/offersReject/:id', async(req, res) => {
+    try {
+       const filter = {propertyId: new ObjectId(req.params.id)}
+       const doc = {
+        $set: {
+            status: 'rejected'
+        }
+       }
+
+       const result = await offersCollection.updateMany(filter, doc)
+       res.send(result)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+})
+
 router.post('/offers', async(req, res) => {
     try {
         const offers = await offersCollection.insertOne({...req.body, propertyId: new ObjectId(req.body?.propertyId)})

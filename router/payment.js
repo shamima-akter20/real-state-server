@@ -35,7 +35,7 @@ router.post('/payments', async(req, res) => {
             }
         }
         offersCollection.updateOne(filter, doc)
-        const result = await paymentsCollection.insertOne(req.body)
+        const result = await paymentsCollection.insertOne({...req.body, propertyId: new ObjectId(req.body.propertyId)})
         res.send(result)
     } catch (error) {
         res.status(500).send(error.message)

@@ -36,7 +36,27 @@ router.get('/boughtProperties/:email', async(req, res) => {
     try {
         const filter = {agentEmail: req.params.email}
         const result = await paymentsCollection.find(filter).toArray()
-        res.send(result)
+
+        // const result = await paymentsCollection.aggregate([
+        //     {
+        //         $match: {
+        //             agentEmail: query?.buyerEmail
+        //         }
+        //     },
+        //       {
+        //         $lookup: {
+        //           from: "properties",
+        //           localField: "propertyId",
+        //           foreignField: "_id",
+        //           as: "propertyDetails",
+        //         },
+        //       },
+        //       {
+        //         $unwind: '$propertyDetails'
+        //       }
+        // ]).toArray()
+         res.send(result)
+        // res.send(result)
     } catch (error) {
         res.status(500).send(error.message)
     }
@@ -78,7 +98,7 @@ router.patch('/properties/:id', verifyToken, verifyAgent, async(req, res) => {
 })
 
 
-router.delete('/properties/:id', verifyToken, verifyAdmin, async(req, res) => {
+router.delete('/properties/:id', verifyToken, verifyAgent, async(req, res) => {
     try {
         const properties = await propertiesCollection.deleteOne({_id: new ObjectId(req.params.id)})
         res.send(properties)
