@@ -11,6 +11,7 @@ const wishlistsRouter = require("./router/wishlists");
 const cookieParser = require("cookie-parser");
 const offersRouter = require("./router/offers");
 const reviewsRouter = require("./router/reviews");
+const paymentRouter = require("./router/payment");
 
 const port = process.env.PORT || 1212;
 
@@ -34,6 +35,8 @@ app.use(wishlistsRouter)
 app.use(offersRouter)
 
 app.use(reviewsRouter)
+
+app.use(paymentRouter)
 
 app.get("/", (req, res) => {
   res.send("Elite Estate server is running...:)");

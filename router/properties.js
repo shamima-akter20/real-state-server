@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-const { propertiesCollection } = require("../db/mongodbConnection");
+const { propertiesCollection, paymentsCollection } = require("../db/mongodbConnection");
 const verifyToken = require("../middlewares/verifyToken");
 const verifyAgent = require("../middlewares/verifyAgent");
 const verifyAdmin = require("../middlewares/verifyAdmin");
@@ -26,6 +26,16 @@ router.get('/properties/:id', verifyToken, async(req, res) => {
         const query = {_id: new ObjectId(req.params.id)}
         const result = await propertiesCollection.findOne(query)
         console.log(result);
+        res.send(result)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+})
+
+router.get('/boughtProperties/:email', async(req, res) => {
+    try {
+        const filter = {agentEmail: req.params.email}
+        const result = await paymentsCollection.find(filter).toArray()
         res.send(result)
     } catch (error) {
         res.status(500).send(error.message)
